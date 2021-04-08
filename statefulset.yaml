@@ -39,6 +39,14 @@ spec:
           volumeMounts:
             - name: bitwardenrs
               mountPath: /data
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
       imagePullSecrets:
         - name: regcred
   volumeClaimTemplates:
