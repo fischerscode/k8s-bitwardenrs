@@ -1,0 +1,8 @@
+{
+    "auths": {
+        "https://index.docker.io/v2/": {
+            "username": "yourregistryusername",
+            "password": "yourpasswordORaccesstoken"
+        }
+    }
+}

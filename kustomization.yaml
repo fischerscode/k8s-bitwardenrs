@@ -1,0 +1,22 @@
+resources:
+  - statefulset.yaml
+  - service.yaml
+
+namespace: bitwardenrs
+
+commonLabels:
+  app.kubernetes.io/name: bitwarden_rs
+
+secretGenerator:
+  - name: bitwardenrs
+    envs:
+      - secrets/bitwarden_rs.env
+  - name: regcred
+    files:
+      - .dockerconfigjson=secrets/regcred.json
+    type: kubernetes.io/dockerconfigjson
+
+configMapGenerator:
+  - name: bitwardenrs
+    envs:
+      - bitwarden_rs.env

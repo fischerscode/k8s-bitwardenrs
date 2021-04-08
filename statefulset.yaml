@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: bitwardenrs
+  labels:
+    app.kubernetes.io/name: bitwarden_rs
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: bitwarden_rs
+  template:
+    metadata:
+      name: bitwardenrs
+      labels:
+        app.kubernetes.io/name: bitwarden_rs
+    spec:
+      containers:
+        - name: bitwardenrs
+          image: bitwardenrs/server:latest
+          envFrom:
+            - configMapRef:
+                name: bitwardenrs
+            - secretRef:
+                name: bitwardenrs
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+            - name: websocket
+              containerPort: 3012
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 300m
+              memory: 1Gi
+            requests:
+              cpu: 50m
+              memory: 256Mi
+          volumeMounts:
+            - name: bitwardenrs
+              mountPath: /data
+      imagePullSecrets:
+        - name: regcred
+  volumeClaimTemplates:
+    - metadata:
+        name: bitwardenrs
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 30Gi
+  serviceName: bitwardenrs

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bitwardenrs
+  labels:
+    app.kubernetes.io/name: bitwarden_rs
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+    - name: websocket
+      port: 3012
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: bitwarden_rs
